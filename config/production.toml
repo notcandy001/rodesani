@@ -1,0 +1,12 @@
+# Overrides applied on top of default.toml when STORYBLOOM_ENV=production
+
+[app]
+environment = "production"
+
+[logging]
+level = "info"
+json = true
+
+[database]
+file_name = "storybloom.sqlite3"
+max_connections = 10

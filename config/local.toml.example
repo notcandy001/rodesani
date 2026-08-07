@@ -1,0 +1,9 @@
+# Copy this file to `local.toml` (gitignored) for machine-local overrides
+# that should never be committed, e.g. a custom SQLite path or an OpenAI
+# API key for local testing.
+#
+# [database]
+# file_name = "/absolute/path/to/my-dev.sqlite3"
+#
+# [ai]
+# api_key = "sk-..."

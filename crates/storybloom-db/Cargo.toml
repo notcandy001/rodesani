@@ -1,0 +1,15 @@
+[package]
+name = "storybloom-db"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+description = "SQLite persistence layer (connection pooling + migrations) for StoryBloom Studio."
+
+[dependencies]
+anyhow = { workspace = true }
+tokio = { workspace = true }
+sqlx = { workspace = true }
+tracing = { workspace = true }

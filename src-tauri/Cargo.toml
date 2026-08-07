@@ -1,0 +1,51 @@
+[package]
+name = "storybloom-studio"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+description = "StoryBloom Studio desktop application (Tauri shell)."
+default-run = "storybloom-studio"
+
+# build.rs invokes tauri-build, which wires up resource embedding and
+# platform codegen (Windows manifest/icon embedding, etc.) - required even
+# though this crate has no proc-macro needs of its own.
+# See https://tauri.app/develop/
+build = "build.rs"
+
+[[bin]]
+name = "storybloom-studio"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# --- internal crates (Model layer + config/db infrastructure) ---
+storybloom-core   = { workspace = true }
+storybloom-config = { workspace = true }
+storybloom-db     = { workspace = true }
+
+# --- Tauri (the View shell) ---
+tauri = { version = "2", features = [] }
+
+# --- async / errors / logging ---
+tokio = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+tracing-appender = { workspace = true }
+
+# --- serialization ---
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# --- platform dirs for locating config/data/logs ---
+directories = { workspace = true }
+
+[features]
+# `custom-protocol` is the conventional Tauri feature flag enabled by the
+# CLI for production builds; kept here for compatibility with `tauri build`.
+custom-protocol = ["tauri/custom-protocol"]

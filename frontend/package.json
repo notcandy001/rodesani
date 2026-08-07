@@ -1,0 +1,14 @@
+{
+  "name": "storybloom-studio-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "description": "StoryBloom Studio frontend (View layer). Scaffolding only - no framework wired up yet.",
+  "type": "module",
+  "scripts": {
+    "dev": "echo \"no frontend framework configured yet\" && exit 1",
+    "build": "echo \"no frontend framework configured yet\" && exit 1"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2"
+  }
+}

@@ -1,0 +1,25 @@
+# Rust
+/target/
+crates/*/target/
+src-tauri/target/
+Cargo.lock.bak
+
+# Local developer config override (see config/local.toml.example)
+config/local.toml
+
+# Runtime artifacts that don't belong in version control
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+*.log
+
+# Frontend (once a real framework is added)
+frontend/node_modules/
+frontend/dist/
+
+# Editor / OS cruft
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp

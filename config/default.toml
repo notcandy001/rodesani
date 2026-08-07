@@ -1,0 +1,30 @@
+[app]
+name = "StoryBloom Studio"
+environment = "development"
+
+[logging]
+level = "info"
+json = false
+file_enabled = true
+
+[database]
+file_name = "storybloom.sqlite3"
+max_connections = 5
+run_migrations_on_startup = true
+
+[window]
+title = "StoryBloom Studio"
+width = 1280.0
+height = 800.0
+resizable = true
+
+[ai]
+provider = "openai"
+base_url = "https://api.openai.com/v1"
+model = "gpt-4o-mini"
+# Left empty on purpose - set via STORYBLOOM__AI__API_KEY, OPENAI_API_KEY,
+# or a gitignored config/local.toml. Never commit a real key here.
+api_key = ""
+temperature = 0.9
+max_output_tokens = 1500
+request_timeout_seconds = 30

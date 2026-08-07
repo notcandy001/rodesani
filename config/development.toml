@@ -1,0 +1,17 @@
+# Overrides applied on top of default.toml when STORYBLOOM_ENV=development
+# (the default when the variable is unset).
+
+[app]
+environment = "development"
+
+[logging]
+level = "debug"
+json = false
+
+[database]
+file_name = "storybloom.dev.sqlite3"
+
+[ai]
+# Slightly cheaper/faster defaults for local iteration; override the model
+# via local.toml if you want to test against a specific one.
+max_output_tokens = 800
