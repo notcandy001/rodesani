@@ -26,6 +26,8 @@ pub struct Settings {
     pub database: DatabaseSettings,
     pub window: WindowSettings,
     pub ai: AiSettings,
+    pub elevenlabs: ElevenLabsSettings,
+    pub whisper: WhisperSettings,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -85,6 +87,53 @@ pub struct AiSettings {
     pub temperature: f32,
     pub max_output_tokens: u32,
     pub request_timeout_seconds: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ElevenLabsSettings {
+    /// API base URL, without a trailing slash (e.g.
+    /// `https://api.elevenlabs.io/v1`).
+    pub base_url: String,
+    /// Which voice to synthesize with, e.g. a voice ID from the ElevenLabs
+    /// voice library.
+    pub voice_id: String,
+    /// Model identifier, e.g. "eleven_multilingual_v2".
+    pub model_id: String,
+    /// Requested output encoding, e.g. "mp3_44100_128".
+    pub output_format: String,
+    /// API key. Left empty in committed TOML files on purpose - set it via
+    /// the `STORYBLOOM__ELEVENLABS__API_KEY` env var, or `local.toml`
+    /// (gitignored). `storybloom-core` also accepts a plain
+    /// `ELEVENLABS_API_KEY` env var as a fallback if this is left empty.
+    #[serde(default)]
+    pub api_key: String,
+    pub request_timeout_seconds: u64,
+    /// Number of retry attempts after the initial request fails, for
+    /// transient errors (timeouts, HTTP 429/5xx) only.
+    pub max_retries: u32,
+    /// Base delay for exponential backoff between retries, in
+    /// milliseconds. Actual delay is `base * 2^attempt`, capped at 30s.
+    pub retry_base_delay_ms: u64,
+    /// Directory generated narration MP3s are saved to, relative to the
+    /// application's working directory unless given as an absolute path.
+    pub output_dir: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct WhisperSettings {
+    /// Path to a whisper.cpp GGML/GGUF model file (e.g.
+    /// `models/ggml-base.en.bin`), relative to the app's working directory
+    /// unless given as an absolute path. Not distributed with this repo -
+    /// download separately (see README) since model files run from tens to
+    /// hundreds of megabytes.
+    pub model_path: String,
+    /// Language code whisper.cpp expects (e.g. "en"), or "auto" to
+    /// auto-detect from the audio itself (slower, and less accurate for
+    /// short clips).
+    pub language: String,
+    /// Threads whisper.cpp uses internally for inference. Roughly: set to
+    /// your machine's physical core count for best throughput.
+    pub threads: u32,
 }
 
 impl Settings {
@@ -152,6 +201,34 @@ impl Settings {
         anyhow::ensure!(
             self.ai.request_timeout_seconds > 0,
             "ai.request_timeout_seconds must be greater than zero"
+        );
+        anyhow::ensure!(
+            !self.elevenlabs.voice_id.trim().is_empty(),
+            "elevenlabs.voice_id must not be empty"
+        );
+        anyhow::ensure!(
+            !self.elevenlabs.output_format.trim().is_empty(),
+            "elevenlabs.output_format must not be empty"
+        );
+        anyhow::ensure!(
+            self.elevenlabs.request_timeout_seconds > 0,
+            "elevenlabs.request_timeout_seconds must be greater than zero"
+        );
+        anyhow::ensure!(
+            !self.elevenlabs.output_dir.trim().is_empty(),
+            "elevenlabs.output_dir must not be empty"
+        );
+        anyhow::ensure!(
+            !self.whisper.model_path.trim().is_empty(),
+            "whisper.model_path must not be empty"
+        );
+        anyhow::ensure!(
+            !self.whisper.language.trim().is_empty(),
+            "whisper.language must not be empty (use \"auto\" to auto-detect)"
+        );
+        anyhow::ensure!(
+            self.whisper.threads > 0,
+            "whisper.threads must be greater than zero"
         );
         Ok(())
     }

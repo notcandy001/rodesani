@@ -11,4 +11,7 @@ pub mod services;
 
 pub use error::CoreError;
 pub use models::{Hashtag, HashtagError, StoryDuration, StoryRequest, StoryResult, StoryType, Tone};
-pub use services::{StoryEngine, StoryEngineConfig};
+pub use services::{
+    StoryEngine, StoryEngineConfig, SubtitleEngine, SubtitleEngineConfig, SubtitleSegment,
+    VoiceEngine, VoiceEngineConfig,
+};

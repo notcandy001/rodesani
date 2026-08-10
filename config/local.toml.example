@@ -7,3 +7,9 @@
 #
 # [ai]
 # api_key = "sk-..."
+#
+# [elevenlabs]
+# api_key = "..."
+#
+# [whisper]
+# model_path = "/absolute/path/to/ggml-base.en.bin"

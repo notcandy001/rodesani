@@ -30,6 +30,27 @@ pub enum CoreError {
     #[error("failed to parse model response: {0}")]
     ResponseParse(String),
 
+    #[error("no ElevenLabs API key configured - set `elevenlabs.api_key`, STORYBLOOM__ELEVENLABS__API_KEY, or ELEVENLABS_API_KEY")]
+    MissingElevenLabsApiKey,
+
+    #[error("failed to reach the ElevenLabs API")]
+    ElevenLabsTransport(reqwest::Error),
+
+    #[error("ElevenLabs API returned an error (HTTP {status}): {message}")]
+    ElevenLabsApi { status: u16, message: String },
+
+    #[error("filesystem error")]
+    Io(#[from] std::io::Error),
+
+    #[error("failed to initialize whisper: {0}")]
+    WhisperInit(String),
+
+    #[error("whisper transcription failed: {0}")]
+    WhisperTranscribe(String),
+
+    #[error("failed to decode audio: {0}")]
+    AudioDecode(String),
+
     #[error(transparent)]
     Other(#[from] anyhow::Error),
 }

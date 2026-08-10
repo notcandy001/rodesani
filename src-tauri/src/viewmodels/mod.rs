@@ -7,7 +7,7 @@
 
 use std::sync::Arc;
 
-use storybloom_core::StoryEngine;
+use storybloom_core::{StoryEngine, SubtitleEngine, VoiceEngine};
 use storybloom_db::DbPool;
 
 /// Single container for every view-model so `AppState` only needs one
@@ -22,10 +22,29 @@ pub struct AppViewModels {
     /// yet. `Arc` because it holds a pooled `reqwest::Client` that's cheap
     /// to share but not cheap to rebuild.
     pub story_engine: Option<Arc<StoryEngine>>,
+    /// `None` when no ElevenLabs API key is configured - the rest of the
+    /// app still starts, this just means narration calls aren't available
+    /// yet. `Arc` for the same reason as `story_engine`.
+    pub voice_engine: Option<Arc<VoiceEngine>>,
+    /// `None` when no whisper model file is configured/found - the rest of
+    /// the app still starts, this just means subtitle generation isn't
+    /// available yet. `Arc` because it holds a loaded whisper.cpp model
+    /// that's expensive to reload per call.
+    pub subtitle_engine: Option<Arc<SubtitleEngine>>,
 }
 
 impl AppViewModels {
-    pub fn new(db: DbPool, story_engine: Option<Arc<StoryEngine>>) -> Self {
-        Self { db, story_engine }
+    pub fn new(
+        db: DbPool,
+        story_engine: Option<Arc<StoryEngine>>,
+        voice_engine: Option<Arc<VoiceEngine>>,
+        subtitle_engine: Option<Arc<SubtitleEngine>>,
+    ) -> Self {
+        Self {
+            db,
+            story_engine,
+            voice_engine,
+            subtitle_engine,
+        }
     }
 }

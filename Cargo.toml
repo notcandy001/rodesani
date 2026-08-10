@@ -64,6 +64,10 @@ chrono = { version = "0.4", features = ["serde"] }
 uuid   = { version = "1", features = ["v4", "serde"] }
 directories = "5"
 
+# --- Subtitle Engine (local, offline speech-to-text) ---
+whisper-rs = "0.13"
+symphonia  = { version = "0.5", features = ["mp3"] }
+
 # ---------------------------------------------------------------------------
 # Release profile tuned for a shippable desktop binary.
 # ---------------------------------------------------------------------------

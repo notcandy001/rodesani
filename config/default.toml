@@ -28,3 +28,25 @@ api_key = ""
 temperature = 0.9
 max_output_tokens = 1500
 request_timeout_seconds = 30
+
+[elevenlabs]
+base_url = "https://api.elevenlabs.io/v1"
+voice_id = "21m00Tcm4TlvDq8ikWAM"
+model_id = "eleven_multilingual_v2"
+output_format = "mp3_44100_128"
+# Left empty on purpose - set via STORYBLOOM__ELEVENLABS__API_KEY,
+# ELEVENLABS_API_KEY, or a gitignored config/local.toml. Never commit a
+# real key here.
+api_key = ""
+request_timeout_seconds = 30
+max_retries = 3
+retry_base_delay_ms = 500
+output_dir = "output/audio"
+
+[whisper]
+# Not shipped with the repo - download a whisper.cpp GGML model (e.g.
+# ggml-base.en.bin from https://huggingface.co/ggerganov/whisper.cpp) and
+# place it at this path, or point this at wherever you keep it.
+model_path = "models/ggml-base.en.bin"
+language = "en"
+threads = 4

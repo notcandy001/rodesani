@@ -17,6 +17,12 @@ config/local.toml
 frontend/node_modules/
 frontend/dist/
 
+# Generated narration audio (ElevenLabs Voice Engine output)
+/output/
+
+# Whisper.cpp GGML/GGUF model files (large; download separately)
+/models/
+
 # Editor / OS cruft
 .DS_Store
 .idea/
